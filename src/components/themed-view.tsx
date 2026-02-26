@@ -1,16 +1,21 @@
-import { View, type ViewProps } from 'react-native';
+import { View, type ViewProps } from 'react-native'
+import { tv } from 'tailwind-variants'
 
-import { ThemeColor } from '@/constants/theme';
-import { useTheme } from '@/hooks/use-theme';
+const themedView = tv({
+  base: 'bg-background',
+  variants: {
+    type: {
+      background: 'bg-background',
+      backgroundElement: 'bg-backgroundElement',
+      backgroundSelected: 'bg-backgroundSelected',
+    },
+  },
+})
 
 export type ThemedViewProps = ViewProps & {
-  lightColor?: string;
-  darkColor?: string;
-  type?: ThemeColor;
-};
+  type?: keyof typeof themedView.variants.type
+}
 
-export function ThemedView({ style, lightColor, darkColor, type, ...otherProps }: ThemedViewProps) {
-  const theme = useTheme();
-
-  return <View style={[{ backgroundColor: theme[type ?? 'background'] }, style]} {...otherProps} />;
+export function ThemedView({ className, type, ...otherProps }: ThemedViewProps) {
+  return <View className={themedView({ type, className })} {...otherProps} />
 }

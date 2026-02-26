@@ -1,18 +1,24 @@
-import { NativeTabs } from 'expo-router/unstable-native-tabs';
-import React from 'react';
-import { useColorScheme } from 'react-native';
+import { NativeTabs } from 'expo-router/unstable-native-tabs'
+import React from 'react'
+import { useColorScheme } from 'react-native'
 
-import { Colors } from '@/constants/theme';
+import { Colors } from '@/constants/theme'
+import { useCSSVariable } from 'uniwind'
 
 export default function AppTabs() {
-  const scheme = useColorScheme();
-  const colors = Colors[scheme === 'unspecified' ? 'light' : scheme];
+  const scheme = useColorScheme()
+  const colors = Colors[scheme === 'unspecified' ? 'light' : scheme]
+  const [backgroundColor, backgroundElementColor, text] = useCSSVariable([
+    '--color-background',
+    '--color-backgroundElement',
+    '--color-text',
+  ]) as [string, string, string]
 
   return (
     <NativeTabs
-      backgroundColor={colors.background}
-      indicatorColor={colors.backgroundElement}
-      labelStyle={{ selected: { color: colors.text } }}>
+      backgroundColor={backgroundColor}
+      indicatorColor={backgroundElementColor}
+      labelStyle={{ selected: { color: text } }}>
       <NativeTabs.Trigger name="index">
         <NativeTabs.Trigger.Label>Home</NativeTabs.Trigger.Label>
         <NativeTabs.Trigger.Icon
@@ -29,5 +35,5 @@ export default function AppTabs() {
         />
       </NativeTabs.Trigger>
     </NativeTabs>
-  );
+  )
 }
